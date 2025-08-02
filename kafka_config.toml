@@ -1,0 +1,12 @@
+[kafka]
+bootstrap_servers = "localhost:29092"
+topic = "test-topic"
+
+[kafka.consumer]
+group_id = "test-group"
+auto_offset_reset = "earliest"
+
+[kafka.producer]
+message_timeout = "5000"
+acks_mode = "all"
+retries = "3"
