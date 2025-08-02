@@ -4,7 +4,7 @@ use crate::config::KafkaConfig;
 
 pub async fn start(kafka_config: &KafkaConfig) {
     let consumer:StreamConsumer = create(&kafka_config);
-    consume(consumer).await
+    handle(&consumer, kafka_config).await
 }
 
 fn create(kafka_config: &KafkaConfig) -> StreamConsumer {
@@ -21,8 +21,10 @@ fn create(kafka_config: &KafkaConfig) -> StreamConsumer {
     consumer
 }
 
-async fn consume(consumer: StreamConsumer) {
-    consumer.subscribe(&["test-topic"])
+async fn handle(consumer: &StreamConsumer, config: &KafkaConfig) {
+    let topics = [config.topic.as_str()];
+
+    consumer.subscribe(&topics)
         .expect("Fail to subscribe topic");
 
     loop {
